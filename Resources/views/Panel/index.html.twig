@@ -14,16 +14,16 @@
 	<div class="admin_panel">
 		{% for entry_name, entry in admin_manager.registration %}
 			{% if has_display_permision(entry_name) %}
-				{% if entry.link is defined %}
-					<a href="{{path(entry.link[0], entry.link[1])}}" class="entry">
+				{% if entry.menu.link is defined %}
+					<a href="{{path(entry.menu.link[0], entry.menu.link[1])}}" class="entry">
 				{% else %}
-					<a href="{{path('belton_simple_admin_list', {'registration_id': entry_name})}}" class="entry">
+					<a href="{{path('belton_simple_admin_list', {'registration': entry_name})}}" class="entry">
 				{% endif %}
 					<div class="entry_image">
 						{% if has_image(entry_name) %}
 							<img src="{{asset(get_image(entry_name))}}" width="70" height="70" alt="img" />
 						{% else %}
-							<img src="{{asset('bundles/beltonsimpleadmin/images/menu_page.png')}}" width="70" height="70"  alt="img"/>
+							<img src="{{asset('bundles/beltonsimpleadmin/images/design/icons/page.png')}}" width="70" height="70"  alt="img"/>
 						{% endif %}
 					</div>
 					<h3>

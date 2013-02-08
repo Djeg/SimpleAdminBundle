@@ -37,42 +37,42 @@ class PanelController extends Controller
     }
 
     /**
-     * @Route("/{registration_id}/", name="belton_simple_admin_list")
+     * @Route("/{registration}/", name="belton_simple_admin_list")
      * @Template()
      */
-    public function listAction($registration_id){
+    public function listAction($registration){
     	$manager = $this->get('belton_simple_admin.manager');
-    	if(!$manager->isRegister($registration_id) or !$manager->hasListPermision($registration_id)){
+    	if(!$manager->isRegister($registration) or !$manager->hasListPermision($registration)){
     		throw $this->createNotFoundException();
     	}
-    	$list = $manager->getList($registration_id, $this->get('request')->query);
+    	$list = $manager->getList($registration, $this->get('request')->query);
     	return array(
             'list' => $list,
-            'register' => $registration_id
+            'register' => $registration
         );
     }
 
     /**
-     * @Route("/{registration_id}/persist/{id}", requirements={"id" = "\d+"}, defaults={"id"=0}, name="belton_simple_admin_persist")
+     * @Route("/{registration}/persist/{id}", requirements={"id" = "\d+"}, defaults={"id"=0}, name="belton_simple_admin_persist")
      * @Template()
      */
-    public function persistAction($registration_id, $id){
+    public function persistAction($registration, $id){
         $manager = $this->get('belton_simple_admin.manager');
-        if(!$manager->isRegister($registration_id) or 
-            !$manager->hasEditPermision($registration_id)){
+        if(!$manager->isRegister($registration) or 
+            !$manager->hasEditPermision($registration)){
             throw $this->createNotFoundException();
         }
 
-        if($manager->isFormService($registration_id)){
-            $type = $this->get($manager->getFormService($registration_id));
+        if($manager->isFormService($registration)){
+            $type = $this->get($manager->getFormService($registration));
         } else {
-            $type = $manager->getForm($registration_id);
+            $type = $manager->getForm($registration);
         }
 
         if($id == 0){
-            $entity = $manager->getEmptyEntity($registration_id);
+            $entity = $manager->getEmptyEntity($registration);
         } else {
-            $entity = $manager->getEntity($registration_id, $id);
+            $entity = $manager->getEntity($registration, $id);
         }
 
         $form = $this->createForm($type, $entity);
@@ -84,29 +84,29 @@ class PanelController extends Controller
                 $em->persist($entity);
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('SUCCESS', $entity->getSuccessRecordMessage());
-                return $this->redirect($this->generateUrl('belton_simple_admin_list', array('registration_id' => $registration_id)));
+                return $this->redirect($this->generateUrl('belton_simple_admin_list', array('registration' => $registration)));
             }
         }
 
         return array(
-            'register' => $registration_id,
+            'register' => $registration,
             'form' => $form->createView(),
             'id' => $id
         );
     }
 
     /**
-     * @Route("/{registration_id}/delete/{id}", requirements={"id"="\d+"}, name="belton_simple_admin_delete")
+     * @Route("/{registration}/delete/{id}", requirements={"id"="\d+"}, name="belton_simple_admin_delete")
      */
-    public function deleteAction($registration_id, $id){
+    public function deleteAction($registration, $id){
         $manager = $this->get('belton_simple_admin.manager');
-        if(!$manager->isRegister($registration_id) or 
-            !$manager->hasDeletePermision($registration_id)){
+        if(!$manager->isRegister($registration) or 
+            !$manager->hasDeletePermision($registration)){
             throw $this->createNotFoundException('Not gallery exists');
         }
 
         $em = $this->getDoctrine()->getEntityManager();
-        $entry = $manager->getRepository($registration_id)
+        $entry = $manager->getRepository($registration)
             ->find($id);
 
         if($this->get('request')->isMethod('POST')){
@@ -114,7 +114,7 @@ class PanelController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('SUCCESS', $entry->getSuccessDeleteMessage());
-            return $this->redirect($this->generateUrl('belton_simple_admin', array('registration_id' => $registration_id)));
+            return $this->redirect($this->generateUrl('belton_simple_admin', array('registration' => $registration)));
         }else {
             throw $this->createNotFoundException('Not post');
         }

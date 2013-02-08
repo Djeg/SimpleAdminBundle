@@ -5,13 +5,13 @@
 {% block content %}
 
 	<div class="add_panel">
-		<a href="{{path('belton_simple_admin_list', {'registration_id': register})}}" class="btn">
+		<a href="{{path('belton_simple_admin_list', {'registration': register})}}" class="btn">
 			{% set tag = register~'.return_list' %}
 			{{tag|trans()}}
 		</a>
 	</div>
 
-	<form action="{{path('belton_simple_admin_persist', {'registration_id': register, 'id': id})}}"
+	<form action="{{path('belton_simple_admin_persist', {'registration': register, 'id': id})}}"
 		  method="POST"
 		  {{form_enctype(form)}}
 		/>

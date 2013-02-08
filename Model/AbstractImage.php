@@ -7,7 +7,8 @@ use Gregwar\ImageBundle\Image as GregwarImage;
 use Exception;
 
 /**
- * @ORM\MappedSuperclass
+ * @ORM\MappedSuperclass()
+ * @ORM\HasLifecycleCallbacks()
  */
 abstract class AbstractImage {
 

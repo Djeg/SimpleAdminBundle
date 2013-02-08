@@ -4,7 +4,7 @@
 {% block content %}
 	{% if has_permision_to_create(register) %}
 		<div class="add_panel">
-			<a href="{{path('belton_simple_admin_persist', {'registration_id': register})}}" class="btn">
+			<a href="{{path('belton_simple_admin_persist', {'registration': register})}}" class="btn">
 				{% set tag = register~'.add' %}
 				{{tag|trans()}}
 			</a>
@@ -27,7 +27,7 @@
 					{% if has_image(register) %}
 						<img src="{{asset(get_image(register))}}" alt="edition" />
 					{% else %}
-						<img src="{{asset('bundles/beltonsimpleadmin/images/menu_page.png')}}" alt="edition" />
+						<img src="{{asset('bundles/beltonsimpleadmin/images/design/icons/menu.png')}}" alt="edition" />
 					{% endif %}
 				</p>
 				<h2>{{v.getListName()}}</h2>
@@ -39,13 +39,13 @@
 			</div>
 			<p class="action">
 				{% if has_permision_to_edit(register) %}
-					<a href="{{path('belton_simple_admin_persist', {'registration_id': register, 'id': v.id})}}" class="btn">
+					<a href="{{path('belton_simple_admin_persist', {'registration': register, 'id': v.id})}}" class="btn">
 						{% set tag = register~'.edit' %}
 						{{tag|trans()}}
 					</a>
 				{% endif %}
 				{% if has_permision_to_delete(register) %}
-					<span data-prototype="{{path('belton_simple_admin_delete', {'registration_id': register, 'id': v.id})}}" class="btn delete_button">
+					<span data-prototype="{{path('belton_simple_admin_delete', {'registration': register, 'id': v.id})}}" class="btn delete_button">
 						{% set tag = register~'.delete' %}
 						{{tag|trans()}}
 					</span>

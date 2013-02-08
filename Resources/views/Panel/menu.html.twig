@@ -12,16 +12,16 @@
 						{{tag|trans({}, 'BeltonSimpleAdminBundle')}}
 					</a>
 					{% set has_ul = false %}
-					{% for rk, rv in admin_manager.registration if rv.menu is defined and rv.menu == menu %}
+					{% for rk, rv in admin_manager.registration if rv.menu is defined and rv.menu.refer == menu %}
 						{% if not has_ul %}
 							<ul class="sub_menu">
 							{% set has_ul = true %}
 						{% endif %}
 						<li>
-							{% if rv.link is defined %}
-								<a href="{{path(rv.link[0], rv.link[1])}}">
+							{% if rv.menu.link is defined %}
+								<a href="{{path(rv.menu.link[0], rv.menu.link[1])}}">
 							{% else %}
-								<a href="{{path('belton_simple_admin_list', {'registration_id': rk})}}">
+								<a href="{{path('belton_simple_admin_list', {'registration': rk})}}">
 							{% endif %}
 								{% set tag2 = 'menu.'~menu~'.'~rk %}
 								{{tag2|trans({}, 'BeltonSimpleAdminBundle')}}
@@ -42,21 +42,21 @@
 				<optgroup label="{{tag|trans({}, 'BeltonSimpleAdminBundle')}}">
 					{% set find = false %}
 					{% for rk, rv in admin_manager.registration %}
-						{% if rv.menu is defined and rv.menu == menu %}
+						{% if rv.menu is defined and rv.menu.refer == menu %}
 							{% set find = true %}
-							{% if rv.link is defined %}
-								<option value="{{url(rv.link[0], rv.link[1])}}">
+							{% if rv.menu.link is defined %}
+								<option value="{{url(rv.menu.link[0], rv.menu.link[1])}}">
 							{% else %}
-								<option value="{{url('belton_simple_admin_list', {'registration_id': rk})}}">
+								<option value="{{url('belton_simple_admin_list', {'registration': rk})}}">
 							{% endif %}
 								{% set tag2 = 'menu.'~menu~'.'~rk %}
 								{{tag2|trans({}, 'BeltonSimpleAdminBundle')}}
 							</option>
 						{% elseif loop.last and not find %}
-							{% if rv.link is defined %}
-								<option value="{{url(rv.link[0], rv.link[1])}}">
+							{% if rv.menu.link is defined %}
+								<option value="{{url(rv.menu.link[0], rv.menu.link[1])}}">
 							{% else %}
-								<option value="{{url('belton_simple_admin_list', {'registration_id': rk})}}">
+								<option value="{{url('belton_simple_admin_list', {'registration': rk})}}">
 							{% endif %}
 								{{tag|trans({}, 'BeltonSimpleAdminBundle')}}
 							</option>

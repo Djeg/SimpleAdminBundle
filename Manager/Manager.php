@@ -132,12 +132,12 @@ class Manager extends Twig_Extension {
 			return $this->repositories[$identifier];
 		} else {
 			if(isset($this->params[$identifier])){	
-				if(isset($this->params[$identifier]['repository'])){
+				if(isset($this->params[$identifier]['entity']['repository'])){
 
-					$this->repositories[$identifier] = $this->em->getRepository($this->params[$identifier]['repository']);
+					$this->repositories[$identifier] = $this->em->getRepository($this->params[$identifier]['entity']['repository']);
 					if(!$this->repositories[$identifier] instanceof AdministrableRepositoryInterface){
 						throw new AdminManagerException('A repository register in the BeltonSimpleaAdminBundle must implement the 
-							Belton\SimpleAdminBundle\Model\AdmistrableRepositoryInterface !');
+							Belton\SimpleAdminBundle\Model\AdmistrableRepositoryInterface ! It\'s not the case ... sorry ;)');
 					}
 
 					return $this->repositories[$identifier];
@@ -156,7 +156,7 @@ class Manager extends Twig_Extension {
 	 */
 	public function getList($offset, ParameterBag $query){
 		if(!$r = $this->getRepository($offset)){
-			throw new AdminManagerException('No entity register at '.$offset.' check your services configuration');
+			throw new AdminManagerException('No entity register at '.$offset.' check your belton_simple_admin configuration');
 		}
 		if($search = $query->get('search')){
 			$search = json_decode($search);
@@ -184,10 +184,8 @@ class Manager extends Twig_Extension {
 			return false;
 		}
 
-		foreach($this->params[$offset]['actions']['list'] as $role){
-			if($this->security->isGranted($role)){
-				return true;
-			}
+		if($this->security->isGranted($this->params[$offset]['access']['list'])){
+			return true;
 		}
 
 		return false;
@@ -205,10 +203,8 @@ class Manager extends Twig_Extension {
 			return false;
 		}
 
-		foreach($this->params[$offset]['actions']['edit'] as $role){
-			if($this->security->isGranted($role)){
-				return true;
-			}
+		if($this->security->isGranted($this->params[$offset]['access']['edit'])){
+			return true;
 		}
 
 		return false;
@@ -226,10 +222,8 @@ class Manager extends Twig_Extension {
 			return false;
 		}
 
-		foreach($this->params[$offset]['actions']['create'] as $role){
-			if($this->security->isGranted($role)){
-				return true;
-			}
+		if($this->security->isGranted($this->params[$offset]['access']['create'])){
+			return true;
 		}
 
 		return false;
@@ -248,10 +242,8 @@ class Manager extends Twig_Extension {
 			return false;
 		}
 
-		foreach($this->params[$offset]['actions']['delete'] as $role){
-			if($this->security->isGranted($role)){
-				return true;
-			}
+		if($this->security->isGranted($this->params[$offset]['access']['delete'])){
+			return true;
 		}
 
 		return false;
@@ -267,11 +259,7 @@ class Manager extends Twig_Extension {
 			return false;
 		}
 
-		if(isset($this->params[$offset]['image'])){
-			return true;
-		}
-
-		return false;
+		return !empty($this->params[$offset]['misc']['thumb']);
 	}
 
 	/**
@@ -283,7 +271,7 @@ class Manager extends Twig_Extension {
 		if(!$this->hasImage($offset)){
 			return null;
 		}
-		return $this->params[$offset]['image'];
+		return $this->params[$offset]['misc']['thumb'];
 	}
 
 	/**
@@ -298,13 +286,7 @@ class Manager extends Twig_Extension {
 			return false;
 		}
 
-		foreach($this->params[$offset]['display'] as $role){
-			if($this->security->isGranted($role)){
-				return true;
-			}
-		}
-
-		return false;
+		return $this->params[$offset]['misc']['display'];
 	}
 
 	/**
@@ -330,7 +312,7 @@ class Manager extends Twig_Extension {
 			return null;
 		}
 
-		return isset($this->params[$offset]['form_service']);
+		return isset($this->params[$offset]['form']['service']);
 	}
 
 	/**
@@ -345,7 +327,8 @@ class Manager extends Twig_Extension {
 		if(!$this->isRegister($offset)){
 			return null;
 		}
-		return new $this->params[$offset]['form']();
+
+		return new $this->params[$offset]['form']['class']();
 	}
 
 	/**
@@ -359,7 +342,8 @@ class Manager extends Twig_Extension {
 		if(!$this->isRegister($offset)){
 			return null;
 		}
-		return $this->params[$offset]['form_service'];
+
+		return $this->params[$offset]['form']['service'];
 	}
 
 	/**
@@ -375,7 +359,7 @@ class Manager extends Twig_Extension {
 			return null;
 		}
 
-		return new $this->params[$offset]['entity_class']();
+		return new $this->params[$offset]['entity']['class']();
 	}
 
 	/**
@@ -407,14 +391,10 @@ class Manager extends Twig_Extension {
 		$this->menu = $menu;
 		$this->infos = $infos;
 		foreach($registration as $name => $infos){
-			
-			// test interface :
-			if(isset($infos['entity_class'])){
-				$ref = new ReflectionClass($infos['entity_class']);
-				if(!in_array('Belton\SimpleAdminBundle\Model\AdministrableInterface', $ref->getInterfaceNames())){
-					throw new AdminManagerException('An admin entity object must implement the 
-						Belton\SimpleAdminBundle\Model\AdministrableInterface !');
-				}
+			$ref = new ReflectionClass($infos['entity']['class']);
+			if(!in_array('Belton\SimpleAdminBundle\Model\AdministrableInterface', $ref->getInterfaceNames())){
+				throw new AdminManagerException('An admin entity object must implement the 
+					Belton\SimpleAdminBundle\Model\AdministrableInterface ! It\'s not the case ... sorry ;)');
 			}
 		}
 	}

@@ -24,7 +24,7 @@ class BeltonSimpleAdminExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-
+        
         $container->setParameter('belton_simple_admin.manager.menu', $config['menu']);
         $container->setParameter('belton_simple_admin.manager.infos', array(
             'website' => $config['website'],
