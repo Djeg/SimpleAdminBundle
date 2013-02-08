@@ -30,5 +30,6 @@ class BeltonSimpleAdminExtension extends Extension
             'website' => $config['website'],
             'backlink' => $config['backlink']
         ));
+        $container->setParameter('belton_simple_admin.manager.registration', $config['registration']);
     }
 }
