@@ -59,7 +59,7 @@ class PanelController extends Controller
     public function persistAction($registration, $id){
         $manager = $this->get('belton_simple_admin.manager');
         if(!$manager->isRegister($registration) or 
-            !$manager->hasEditPermision($registration)){
+            !$manager->hasEditPermision($registration, $id)){
             throw $this->createNotFoundException();
         }
 

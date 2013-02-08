@@ -6,6 +6,8 @@ footer:
     quicknote: "Cette éspace d'administration vous est proposé par %link%."
 
 menu:
+    profile:
+        title: 'Mon profile'
     pages: 
         title: 'Vos pages'
     users: 

@@ -33,6 +33,15 @@
 					{% endif %}
 				</li>
 			{% endfor %}
+			{% if has_user_bundle() %}
+				{% set user_register = get_user_bundle_registration_key() %}
+				{% set user = get_user_bundle_entity() %}
+				<li>
+					<a href="{{path('belton_simple_admin_persist', {'registration': user_register, 'id': user.id})}}">
+						{{'menu.profile.title'|trans({}, 'BeltonSimpleAdminBundle')}}
+					</a>
+				</li>
+			{% endif %}
 		</ul>
 	</nav>
 	<nav id="mobile_menu" class="mobile_display">
@@ -64,6 +73,15 @@
 					{% endfor %}
 				</optgroup>
 			{% endfor %}
+			{% if has_user_bundle() %}
+				{% set user_register = get_user_bundle_registration_key() %}
+				{% set user = get_user_bundle_entity() %}
+				<optgroup label="profil">
+					<option value="{{url('belton_simple_admin_persist', {'registration': user_register, 'id': user.id})}}">
+						{{ 'menu.profile.title'|trans({}, 'BeltonSimpleAdminBundle') }}
+					</option>
+				</optgroup>
+			{% endif %}
 		</select>
 	</nav>
 {% endif %}

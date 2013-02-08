@@ -82,6 +82,9 @@ class Manager extends Twig_Extension {
 	 */
 	public function getFunctions(){
 		return array(
+			'has_user_bundle' => new \Twig_Function_Method($this, 'hasUserBundle'),
+			'get_user_bundle_registration_key' => new \Twig_Function_Method($this, 'getUserBundleRegistrationKey'),
+			'get_user_bundle_entity' => new \Twig_Function_Method($this, 'getUserBundleEntity'),
 			'has_permision_to_list' => new \Twig_Function_Method($this, 'hasListPermision'),
 			'has_permision_to_create' => new \Twig_Function_Method($this, 'hasCreatePermision'),
 			'has_permision_to_edit' => new \Twig_Function_Method($this, 'hasEditPermision'),
@@ -195,16 +198,23 @@ class Manager extends Twig_Extension {
 	 * Test if the current log user have the permission to edit
 	 * 
 	 * @param string $offset
+	 * @param integer $id = null
 	 * 
 	 * @return boolean
 	 */
-	public function hasEditPermision($offset){
+	public function hasEditPermision($offset, $id = null){
 		if(!$this->isRegister($offset)){
 			return false;
 		}
 
 		if($this->security->isGranted($this->params[$offset]['access']['edit'])){
 			return true;
+		} else {
+			if($offset == $this->getUserBundleRegistrationKey()){
+				if($id == $this->getUserBundleEntity()->getId()){
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -286,7 +296,7 @@ class Manager extends Twig_Extension {
 			return false;
 		}
 
-		return $this->params[$offset]['misc']['display'];
+		return $this->params[$offset]['misc']['display'] && $this->hasListPermision($offset);
 	}
 
 	/**
@@ -378,6 +388,44 @@ class Manager extends Twig_Extension {
 
 		return $this->getRepository($offset)
 			->find($id);
+	}
+
+	/**
+	 * Detect if a user bundle is actualy register.
+	 * 
+	 * @return boolean
+	 */
+	public function hasUserBundle(){
+		foreach($this->params as $registerKey => $registerValue){
+			if($registerValue['entity']['user_bundle']){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the user bundle regsitration key name
+	 * 
+	 * @return string or null of no user bundle is register
+	 */
+	public function getUserBundleRegistrationKey(){
+		foreach($this->params as $registerKey => $registerValue){
+			if($registerValue['entity']['user_bundle']){
+				return $registerKey;
+			}
+		}
+	}
+
+	/**
+	 * Get the user bundle registration entity by return corect
+	 * security user bundle instance
+	 * 
+	 * @return Object o null if no user
+	 */
+	public function getUserBundleEntity(){
+		return $this->security->getToken()->getUser();
 	}
 
 	/**
