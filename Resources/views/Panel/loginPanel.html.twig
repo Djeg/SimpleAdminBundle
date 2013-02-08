@@ -1,0 +1,6 @@
+{% if is_granted('ROLE_ADMIN') %}
+	<div id="log_block">
+		<p>{{app.security.token.username}} - <a href="{{path('fos_user_security_logout')}}">
+			{{'loginPanel.disconect'|trans({}, 'BeltonSimpleAdminBundle')}}</a></p>
+	</div>
+{% endif %}

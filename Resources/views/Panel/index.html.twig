@@ -1,0 +1,41 @@
+{% extends 'BeltonSimpleAdminBundle::layout.html.twig' %}
+{% trans_default_domain "BeltonSimpleAdminBundle" %}
+
+{% block content %}
+	<div class="center bordered_bottom">
+		<img id="welcome_guy" alt="Welcome !" src="{{asset('bundles/beltonsimpleadmin/images/design/welcome.png')}}" />
+		<div class="float_left">
+			<h1>
+				{{"dashboard.index.h1"|trans({'%username%': app.security.token.username})}}
+			</h1>
+		</div>
+	</div>
+
+	<div class="admin_panel">
+		{% for entry_name, entry in admin_manager.registration %}
+			{% if has_display_permision(entry_name) %}
+				{% if entry.link is defined %}
+					<a href="{{path(entry.link[0], entry.link[1])}}" class="entry">
+				{% else %}
+					<a href="{{path('belton_simple_admin_list', {'registration_id': entry_name})}}" class="entry">
+				{% endif %}
+					<div class="entry_image">
+						{% if has_image(entry_name) %}
+							<img src="{{asset(get_image(entry_name))}}" width="70" height="70" alt="img" />
+						{% else %}
+							<img src="{{asset('bundles/beltonsimpleadmin/images/menu_page.png')}}" width="70" height="70"  alt="img"/>
+						{% endif %}
+					</div>
+					<h3>
+						{% set tag = entry_name~".short_title" %}
+						{{tag|trans()}}
+					</h3>
+					<p>
+						{% set tag = entry_name~".description" %}
+						{{tag|trans()}}
+					</p>
+				</a>
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endblock %}

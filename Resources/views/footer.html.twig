@@ -1,0 +1,8 @@
+{% extends "BeltonSimpleAdminBundle::javascript.html.twig" %}
+	
+{% block footer_content %}
+	<p>
+		{{admin_manager.website}}. 
+		{{"footer.quicknote"|trans({'%link%': '<a href="'~admin_manager.backlink~'">Belton</a>'}, 'BeltonSimpleAdminBundle')|raw}}
+	</p>
+{% endblock %}

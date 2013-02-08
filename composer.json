@@ -1,0 +1,27 @@
+{
+	"name": "belton/simple-admin-bundle",
+	"type": "symfony-bundle",
+	"description": "Simple adminitration bundle for Symfony2",
+	"keywords": ["Symfony2", "admin", "backend", "bundle"],
+	"homepage": "https://github.com/belton/SimpleAdminBundle",
+	"licence":"MIT",
+	"authors": [
+		{
+			"name": "David Jegat",
+			"email": "david.jegat@gmail.com",
+			"homepage": "http://www.yesdesign.fr/"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"gregwar/image-bundle": "*",
+		"knplabs/knp-paginator-bundle": "dev-master",
+		"friendsofsymfony/user-bundle": "*"
+	},
+	"autoload": {
+		"psr-0": {
+			"Belton\\SimpleAdminBundle": ""
+		}
+	},
+	"target-dir": "Belton/SimpleAdminBundle"
+}

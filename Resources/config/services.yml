@@ -1,0 +1,28 @@
+parameters:
+    belton_simple_admin.manager.registration:
+        users: 
+            entity_class: Test\UserBundle\Entity\User
+            repository: TestUserBundle:User
+            form_service: test_userbundle.registration.form.type
+            form: Test\UserBundle\Form\RegisterUserType
+            actions: 
+                edit: ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN']
+                list: ['ROLE_SUPER_ADMIN']
+                create: ['ROLE_SUPER_ADMIN']
+                delete: ['ROLE_SUPER_ADMIN']
+            image: bundles/beltonsimpleadmin/images/design/icons/user.png
+            display: ['ROLE_SUPER_ADMIN']
+
+services:
+    belton_simple_admin.manager:
+        class: Belton\SimpleAdminBundle\Manager\Manager
+        arguments: 
+            - "@doctrine.orm.entity_manager"
+            - "%belton_simple_admin.manager.registration%"
+            - "%belton_simple_admin.manager.menu%"
+            - "%belton_simple_admin.manager.infos%"
+        calls:
+            - [setPaginator, [@knp_paginator]]
+            - [setSecurity, [@security.context]]
+        tags:
+            - {name: twig.extension}

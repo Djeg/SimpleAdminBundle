@@ -1,0 +1,26 @@
+{% extends 'BeltonSimpleAdminBundle::layout.html.twig' %}
+{% trans_default_domain "BeltonSimpleAdminBundle" %}
+{% form_theme form 'form_table_layout.html.twig' %}
+
+{% block content %}
+
+	<div class="add_panel">
+		<a href="{{path('belton_simple_admin_list', {'registration_id': register})}}" class="btn">
+			{% set tag = register~'.return_list' %}
+			{{tag|trans()}}
+		</a>
+	</div>
+
+	<form action="{{path('belton_simple_admin_persist', {'registration_id': register, 'id': id})}}"
+		  method="POST"
+		  {{form_enctype(form)}}
+		/>
+
+		{{form_widget(form)}}
+
+		{% set tag = register~'.persist' %}
+		<input type="submit" value="{{tag|trans()}}" class="btn btn-primary"/>
+
+	</form>
+
+{% endblock %}

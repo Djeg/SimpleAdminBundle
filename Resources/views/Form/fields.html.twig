@@ -1,0 +1,36 @@
+
+{% block image_widget %}
+	{% spaceless %}
+		<div class="image_uploader">
+			{% if image_url is not empty %}
+				<img src="{{asset(image_url)}}" alt="Image" class="image_preview" />
+				<input type="button" value="{{'form.image.change'|trans({}, 'BeltonSimpleAdminBundle')}}" class="btn change_image" />
+				<input type="file" id="{{id}}" name="{{full_name}}" class="hidden_input uploader" />
+			{% else %}
+				<input type="file" id="{{id}}" name="{{full_name}}" class="uploader" />
+			{% endif %}
+		</div>
+	{% endspaceless %}
+{% endblock %}
+
+{% block video_widget %}
+	{% spaceless %}
+		{{block('textarea_widget')}}
+		{% if video is not empty %}
+			<div class="video_preview">
+				{{video|raw}}
+			</div>
+		{% endif %}
+		<button class="btn test_button">
+			<i class="icon-film"></i>
+			{{'form.video.test'|trans({}, 'BeltonSimpleAdminBundle')}}
+		</button>
+	{% endspaceless %}
+{% endblock %}
+
+{% block crop_widget %}
+	{% spaceless %}
+		<input type="hidden" class="cropper" id="{{id}}" name="{{full_name}}" 
+		value="" data-prototype="{{crop_options}}"} />
+	{% endspaceless %}
+{% endblock %}

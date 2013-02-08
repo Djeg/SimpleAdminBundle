@@ -1,0 +1,58 @@
+{% extends 'BeltonSimpleAdminBundle::layout.html.twig' %}
+{% trans_default_domain "BeltonSimpleAdminBundle" %}
+
+{% block content %}
+	{% if has_permision_to_create(register) %}
+		<div class="add_panel">
+			<a href="{{path('belton_simple_admin_persist', {'registration_id': register})}}" class="btn">
+				{% set tag = register~'.add' %}
+				{{tag|trans()}}
+			</a>
+		</div>
+	{% endif %}
+
+	{% for message in app.session.flashBag.get('SUCCESS') %}
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{message|raw}}
+		</div>
+	{% endfor %}
+
+	{{knp_pagination_render(list)}}
+
+	{% for v in list %}
+		<div class="list_block">
+			<div class="list_block_content">
+				<p class="sidebar_left preview_img">
+					{% if has_image(register) %}
+						<img src="{{asset(get_image(register))}}" alt="edition" />
+					{% else %}
+						<img src="{{asset('bundles/beltonsimpleadmin/images/menu_page.png')}}" alt="edition" />
+					{% endif %}
+				</p>
+				<h2>{{v.getListName()}}</h2>
+				<p class="sidebar_left details">
+					{% for k, v2 in v.getListFields() %}
+						<strong>{{k}}</strong> : {{v2|raw}} {% if not loop.last %}<br />{% endif %}
+					{% endfor %}
+				</p>
+			</div>
+			<p class="action">
+				{% if has_permision_to_edit(register) %}
+					<a href="{{path('belton_simple_admin_persist', {'registration_id': register, 'id': v.id})}}" class="btn">
+						{% set tag = register~'.edit' %}
+						{{tag|trans()}}
+					</a>
+				{% endif %}
+				{% if has_permision_to_delete(register) %}
+					<span data-prototype="{{path('belton_simple_admin_delete', {'registration_id': register, 'id': v.id})}}" class="btn delete_button">
+						{% set tag = register~'.delete' %}
+						{{tag|trans()}}
+					</span>
+				{% endif %}
+			</p>
+		</div>
+	{% endfor %}
+
+	{{knp_pagination_render(list)}}
+{% endblock %}

@@ -1,0 +1,69 @@
+{% if is_granted('ROLE_ADMIN') %}
+	<nav id="menu">
+		<ul>
+			{% for menu, menu_info in admin_manager.menu if is_granted(menu_info.access)  %}
+				<li>
+					{% if menu_info.link %}
+						<a href="{{path(menu_info.link[0], menu_info.link[1])}}">
+					{% else %}
+						<a href="">
+					{% endif %}
+						{% set tag = 'menu.'~menu~'.title' %}
+						{{tag|trans({}, 'BeltonSimpleAdminBundle')}}
+					</a>
+					{% set has_ul = false %}
+					{% for rk, rv in admin_manager.registration if rv.menu is defined and rv.menu == menu %}
+						{% if not has_ul %}
+							<ul class="sub_menu">
+							{% set has_ul = true %}
+						{% endif %}
+						<li>
+							{% if rv.link is defined %}
+								<a href="{{path(rv.link[0], rv.link[1])}}">
+							{% else %}
+								<a href="{{path('belton_simple_admin_list', {'registration_id': rk})}}">
+							{% endif %}
+								{% set tag2 = 'menu.'~menu~'.'~rk %}
+								{{tag2|trans({}, 'BeltonSimpleAdminBundle')}}
+							</a>
+						</li>
+					{% endfor %}
+					{% if has_ul %}
+						</ul>
+					{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+	</nav>
+	<nav id="mobile_menu" class="mobile_display">
+		<select id="mobile_menu_select">
+			{% for menu, menu_info in admin_manager.menu if is_granted(menu_info.access) %}
+				{% set tag = 'menu.'~menu~'.title' %}
+				<optgroup label="{{tag|trans({}, 'BeltonSimpleAdminBundle')}}">
+					{% set find = false %}
+					{% for rk, rv in admin_manager.registration %}
+						{% if rv.menu is defined and rv.menu == menu %}
+							{% set find = true %}
+							{% if rv.link is defined %}
+								<option value="{{url(rv.link[0], rv.link[1])}}">
+							{% else %}
+								<option value="{{url('belton_simple_admin_list', {'registration_id': rk})}}">
+							{% endif %}
+								{% set tag2 = 'menu.'~menu~'.'~rk %}
+								{{tag2|trans({}, 'BeltonSimpleAdminBundle')}}
+							</option>
+						{% elseif loop.last and not find %}
+							{% if rv.link is defined %}
+								<option value="{{url(rv.link[0], rv.link[1])}}">
+							{% else %}
+								<option value="{{url('belton_simple_admin_list', {'registration_id': rk})}}">
+							{% endif %}
+								{{tag|trans({}, 'BeltonSimpleAdminBundle')}}
+							</option>
+						{% endif %}
+					{% endfor %}
+				</optgroup>
+			{% endfor %}
+		</select>
+	</nav>
+{% endif %}

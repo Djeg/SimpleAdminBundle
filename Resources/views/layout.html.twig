@@ -1,0 +1,39 @@
+{% extends 'BeltonSimpleAdminBundle::footer.html.twig' %}
+{% trans_default_domain "BeltonSimpleAdminBundle" %}
+
+
+{% block title %}{% trans %}title.default{% endtrans %}{% endblock %}
+
+{% block body %}
+	<header>
+		<div class="wrap">
+			<div class="smart_border"></div>
+			{% render 'BeltonSimpleAdminBundle:Panel:loginPanel' %}
+			<a id="logo" href="{{path('belton_simple_admin_panel')}}"></a>
+			{% render 'BeltonSimpleAdminBundle:Panel:menu' %}
+		</div>
+	</header>
+
+	<div id="page">
+		{% block page %}
+			<div class="wrap" id="content">
+				{% block content %}
+					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+						<div class="log_image"></div>
+					{% endif %}
+					{% block fos_user_content %}{% endblock %}
+				{% endblock %}
+			</div>
+		{% endblock %}
+	</div>
+
+	<footer>
+		{% block footer %}
+			<div class="wrap" id="footer_content">
+				{% block footer_content %}
+					{{parent()}}
+				{% endblock %}
+			</div>
+		{% endblock %}
+	</footer>
+{% endblock %}

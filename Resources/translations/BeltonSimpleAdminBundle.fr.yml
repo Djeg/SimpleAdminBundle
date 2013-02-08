@@ -1,0 +1,65 @@
+title:
+    default: "Administration"
+    dashboard: "Panneau"
+
+footer:
+    quicknote: "Cette éspace d'administration vous est proposé par %link%."
+
+menu:
+    pages: 
+        title: 'Vos pages'
+    users: 
+        title: 'Utilisateurs'
+        users: 'Gérez vos utilisateurs'
+    gallery:
+        title: 'Gallerie'
+        gallery: 'Vos galleries'
+        media: 'Vos médias'
+    info: 
+        title: 'Vos informations personnelles'
+
+form:
+    image:
+        help: "Choisisez votre image"
+        change: "Changer cette image"
+    video:
+        test: "Tester cette vidéo"
+
+dashboard:
+    index:
+        h1: "Bienvenue %username%"
+
+loginPanel:
+    disconect: "Déconnexion"
+
+users:
+    add: 'Ajoutez un nouvelle utilisateur'
+    edit: 'Modifiez cette utilisateur'
+    delete: 'Supprimez cette utilisateur'
+    persist: 'Ajouter/Modifier'
+    return_list: 'Retourner à la liste'
+    short_title: "Utilisateurs"
+    description: |
+        Vous pouvez administrer l'intégralité de vos utilisateurs via ce simple panneau. Créer, 
+        supprimer et modifier des utilisateurs devient très simple !
+
+gallery:
+    add: 'Ajoutez une nouvelle gallerie'
+    edit: 'Modifiez cette gallerie'
+    delete: 'Supprimez cette gallerie'
+    short_title: "Gallerie"
+    return_list: "Retourner à la liste des galleries"
+    persist: "Ajouter ou modifier cette gallerie"
+    description: |
+        Créez vos catégories afin de faciliter la navigation de votre gallerie.
+
+media:
+    add: 'Ajoutez un nouveau média'
+    edit: 'Modifiez ce média'
+    delete: 'Supprimez ce média'
+    short_title: "Média"
+    return_list: "Retourner à la liste des médias"
+    persist: "Ajouter ou modifier ce média"
+    description: |
+        Créez vos images et vidéos, organisez les dans les différentes catégories
+        de votre gallerie afin de profiter d'une meilleur navigation.

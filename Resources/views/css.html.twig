@@ -1,0 +1,18 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+	{# Google web font powered ;) #}
+	<link href='http://fonts.googleapis.com/css?family=Inder|Titillium+Web' rel='stylesheet' type='text/css'/>
+	{# Devellopment vendors : 
+	{% stylesheets 
+		'@bootstrap_css'
+		'@jcrop_css'
+		'bundles/beltonsimpleadmin/css/style.css'
+		filter="cssrewrite, less, ?yui_css"
+		output="bundles/beltonsimpleadmin/css/admin.min.css"
+	%}
+		<link rel="stylesheet" href="{{asset_url}}" media="screen" />
+	{% endstylesheets %}
+	#}
+	<link rel="stylesheet" href="{{asset('bundles/beltonsimpleadmin/css/admin.min.css')}}">
+{% endblock %}
