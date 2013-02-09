@@ -7,8 +7,11 @@ use Gregwar\ImageBundle\Image as GregwarImage;
 use Exception;
 
 /**
- * @ORM\MappedSuperclass()
- * @ORM\HasLifecycleCallbacks()
+ * This abstract class defined the default methods and comportment for an Image Cropper
+ * entity. You can directlynherit our entities that you would to have the corect Image
+ * cropper behavior. So just inherit and implements the two methods ;) !
+ * 
+ * @author david jegat <david.jegat@gmail.com>
  */
 abstract class AbstractImage {
 
@@ -223,6 +226,9 @@ abstract class AbstractImage {
 	 */
 	public function getImageAbsolutePath(){
 		if(!is_dir($this->getUploadedDirectoryPath())){
+			if(!is_dir(dirname($this->getUploadedDirectoryPath()))){
+				mkdir(dirname($this->getUploadedDirectoryPath()));
+			}
 			mkdir($this->getUploadedDirectoryPath());
 		}
 		if(null === $this->getImageFullName()){
@@ -256,7 +262,6 @@ abstract class AbstractImage {
 
 	/**
 	 * Method to execute on the load
-	 * 
 	 */
 	public function onLoad(){
 		if($this->imageFullName !== null){
@@ -266,6 +271,7 @@ abstract class AbstractImage {
 
 	/**
 	 * Method to execute after the object deletion
+	 * 
 	 */
 	public function onDelete(){
 		if($this->getImageAbsolutePath() !== null){

@@ -1,4 +1,4 @@
-<?php namespace Belton\SimpleAdminBundle\Form;
+<?php namespace Belton\SimpleAdminBundle\Model\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -7,21 +7,22 @@ use Belton\SimpleAdminBundle\Form\Type\CropType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-class ImageCropFormType extends AbstractType {
-
-	/**
-	 * @var array $options
-	 * @access private
-	 */
-	private $cropOptions;
+abstract class AbstractImageCropType extends AbstractType {
 
 	/**
 	 * @{inheritdoc}
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options){
-		$builder->add('file', new ImageType(), array('label' => 'Image', 'required' => false));
+		// Merge default crop options with the options.
+		if(isset($options['croppper'])){
+			$this->cropOptions = $this->getCropOptions() + $options['cropper'];
+		} else {
+			$this->cropOptions = $this->getCropOptions();
+		}
+		// Build field :
+		$builder->add('file', 'image', array('label' => 'Image', 'required' => false));
 		$builder->add('imageName', 'text', array('required' => false));
-		$builder->add('cropper', new CropType(), array('cropper' => $this->cropOptions, 'required' => false));
+		$builder->add('cropper', 'crop', array('cropper' => $this->cropOptions, 'required' => false));
 	}
 
 	/**
@@ -59,12 +60,10 @@ class ImageCropFormType extends AbstractType {
 	}
 
 	/**
-	 * Construct the ImageCropFormType
+	 * Defined the crop options for all childs objects
 	 * 
-	 * @param array $cropOptons = array()
+	 * @return array
 	 */
-	public function __construct(array $cropOptions = array()){
-		$this->cropOptions = $cropOptions;
-	}
+	abstract public function getCropOptions();
 
 }

@@ -69,9 +69,11 @@ class PanelController extends Controller
             $type = $manager->getForm($registration);
         }
 
+        $is_update = false;
         if($id == 0){
             $entity = $manager->getEmptyEntity($registration);
         } else {
+            $is_update = true;
             $entity = $manager->getEntity($registration, $id);
         }
 
@@ -83,7 +85,9 @@ class PanelController extends Controller
                     ->getEntityManager();
                 $em->persist($entity);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('SUCCESS', $entity->getSuccessRecordMessage());
+                $tag = ($is_update) ? $registration.'.on_update' : $registration.'.on_record';;
+                $this->get('session')->getFlashBag()->add('SUCCESS', $tag);
+                $this->get('session')->getFlashBag()->add('SUBJECT_ENTITY', $entity);
                 return $this->redirect($this->generateUrl('belton_simple_admin_list', array('registration' => $registration)));
             }
         }
@@ -113,8 +117,9 @@ class PanelController extends Controller
             $em->remove($entry);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('SUCCESS', $entry->getSuccessDeleteMessage());
-            return $this->redirect($this->generateUrl('belton_simple_admin', array('registration' => $registration)));
+            $this->get('session')->getFlashBag()->add('SUCCESS', $registration.'.on_delete');
+            $this->get('session')->getFlashBag()->add('SUBJECT_ENTITY', $entry);
+            return $this->redirect($this->generateUrl('belton_simple_admin_list', array('registration' => $registration)));
         }else {
             throw $this->createNotFoundException('Not post');
         }

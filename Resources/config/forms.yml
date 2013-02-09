@@ -1,0 +1,19 @@
+services:
+    belton_simple_admin.form.ckeditor:
+        class: Belton\SimpleAdminBundle\Form\Type\CkeditorType
+        tags: 
+            - {name: form.type, alias: ckeditor}
+    belton_simple_admin.form.crop:
+        class: Belton\SimpleAdminBundle\Form\Type\CropType
+        arguments:
+            - "%belton_simple_admin.forms.crop%"
+        tags:
+            - {name: form.type, alias: crop}
+    belton_simple_admin.form.image:
+        class: Belton\SimpleAdminBundle\Form\Type\ImageType
+        tags:
+            - {name: form.type, alias: image}
+    belton_simple_admin.form.video:
+        class: Belton\SimpleAdminBundle\Form\Type\VideoType
+        tags:
+            - {name: form.type, alias: video}

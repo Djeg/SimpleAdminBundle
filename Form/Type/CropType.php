@@ -3,26 +3,32 @@
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfoný\Component\Form\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * This form type create a special hidden files operatig with some
- * javascript stuff for create cropper resizement effetc
+ * javascript stuff for create cropper resizement effect
  * 
  * @author david jegat <david.jegat@gmail.com>
  */
 class CropType extends AbstractType {
 
 	/**
+	 * @var array $cropOptions
+	 * @access private
+	 */
+	private $cropOptions;
+
+	/**
 	 * Get the defaults options
 	 * 
 	 * @param array $options
 	 */
-	public function getDefaultOptions(array $options){
-		return array(
-			'cropper' => array()
-		) + $options;
+	public function setDefaultOptions(OptionsResolverInterface $resolver){
+		$resolver->setDefaults(array(
+			'cropper' => $this->cropOptions
+		));
 	}
 
 	/**
@@ -44,6 +50,15 @@ class CropType extends AbstractType {
 	 */
 	public function getName(){
 		return 'crop';
+	}
+
+	/**
+	 * Construct the CropType form type service
+	 * 
+	 * @param array $cropOptions, the croppper options
+	 */
+	public function __construct(array $cropOptions = null){
+		$this->cropOptions = $cropOptions;
 	}
 
 }

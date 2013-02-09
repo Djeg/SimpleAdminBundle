@@ -1,7 +1,6 @@
 {% extends "BeltonSimpleAdminBundle::css.html.twig" %}
 
 {% block javascripts %}
-	{# Devellopment vendors :
 	{% javascripts
 		'@jquery'
 		'@ckeditor'
@@ -13,6 +12,5 @@
 	%}
 		<script type="text/javascript" src="{{asset_url}}"></script>
 	{% endjavascripts %}
-	#}
-	<script type="text/javascript" src="{{asset('bundles/beltonsimpleadmin/js/admin.min.js')}}"></script>
+	{# <script type="text/javascript" src="{{asset('bundles/beltonsimpleadmin/js/admin.min.js')}}"></script> #}
 {% endblock %}

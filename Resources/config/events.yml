@@ -1,0 +1,5 @@
+services:
+    belton_simple_admin.events.image:
+        class: Belton\SimpleAdminBundle\Model\ImageSubscriber
+        tags: 
+            - {name: doctrine.event_subscriber}

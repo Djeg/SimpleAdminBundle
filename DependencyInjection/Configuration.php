@@ -22,86 +22,146 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                // Global configuration about the simple admin
                 ->scalarNode('website')
                     ->defaultValue('Your web site')
                 ->end()
                 ->scalarNode('backlink')
                     ->defaultValue('https://github.com/davidjegat/SimpleAdminBundle')
                 ->end()
-                ->arrayNode('menu')
-                    ->isRequired()
-                    ->requiresAtLeastOneElement()
-                    ->prototype('array')
-                        ->children()
-                            ->scalarNode('access')->isRequired()->cannotBeEmpty()->end()
-                            ->variableNode('link')->isRequired()->end()
+                ->append($this->addMenuParameters())
+                ->append($this->addRegistrationParameters())
+                ->append($this->addFormParameters())
+            ->end();
+
+
+        return $treeBuilder;
+    }
+
+    /**
+     * Add the Simple admin menu parameters :
+     * 
+     * @return TreeBuidler
+     */
+    public function addMenuParameters(){
+        $builder = new TreeBuilder();
+        // Defined the menu node :
+        return $builder->root('menu')
+            ->isRequired()
+            ->requiresAtLeastOneElement()
+            ->prototype('array')
+                ->children()
+                    ->scalarNode('access')->isRequired()->cannotBeEmpty()->end()
+                    ->arrayNode('link')
+                        ->isRequired()
+                        ->beforeNormalization()
+                            ->ifString()
+                            ->then(function($v){ return array($v, array()); })
                         ->end()
+                        ->prototype('variable')->end()
                     ->end()
                 ->end()
-                ->arrayNode('registration')
-                    ->isRequired()
-                    ->requiresAtLeastOneElement()
-                    ->prototype('array')
+            ->end();
+    }
+
+    /**
+     * Add the Registration parameters
+     * 
+     * @return TreeBuilder
+     */
+    public function addRegistrationParameters(){
+        $builder = new TreeBuilder();
+        // Construct the registration node :
+        return $builder->root('registration')
+            ->isRequired()
+            ->requiresAtLeastOneElement()
+            ->prototype('array')
+                ->children()
+                    ->arrayNode('entity')
+                        ->isRequired()
                         ->children()
-                            ->arrayNode('entity')
+                            ->scalarNode('class')->end()
+                            ->scalarNode('repository')->end()
+                            ->booleanNode('user_bundle')
+                                ->defaultFalse()
+                            ->end()
+                        ->end()
+                    ->end()
+                    ->arrayNode('form')
+                        ->isRequired()
+                        ->children()
+                            ->scalarNode('class')->end()
+                            ->scalarNode('service')->end()
+                        ->end()
+                    ->end()
+                    ->arrayNode('access')
+                        ->children()
+                            ->scalarNode('list')
                                 ->isRequired()
-                                ->children()
-                                    ->scalarNode('class')->end()
-                                    ->scalarNode('repository')->end()
-                                    ->booleanNode('user_bundle')
-                                        ->defaultFalse()
-                                    ->end()
-                                ->end()
                             ->end()
-                            ->arrayNode('form')
+                            ->scalarNode('edit')
                                 ->isRequired()
-                                ->children()
-                                    ->scalarNode('class')->end()
-                                    ->scalarNode('service')->end()
-                                ->end()
                             ->end()
-                            ->arrayNode('access')
-                                ->children()
-                                    ->scalarNode('list')
-                                        ->isRequired()
-                                    ->end()
-                                    ->scalarNode('edit')
-                                        ->isRequired()
-                                    ->end()
-                                    ->scalarNode('create')
-                                        ->isRequired()
-                                    ->end()
-                                    ->scalarNode('delete')
-                                        ->isRequired()
-                                    ->end()
-                                ->end()
+                            ->scalarNode('create')
+                                ->isRequired()
                             ->end()
-                            ->arrayNode('menu')
-                                ->children()
-                                    ->scalarNode('refer')
-                                        ->defaultValue('')
-                                    ->end()
-                                    ->variableNode('link')
-                                        ->defaultValue('')
-                                    ->end()
-                                ->end()
+                            ->scalarNode('delete')
+                                ->isRequired()
                             ->end()
-                            ->arrayNode('misc')
-                                ->children()
-                                    ->scalarNode('thumb')
-                                        ->defaultValue('')
-                                    ->end()
-                                    ->booleanNode('display')
-                                        ->defaultFalse()
-                                    ->end()
-                                ->end()
+                        ->end()
+                    ->end()
+                    ->arrayNode('menu')
+                        ->children()
+                            ->scalarNode('refer')
+                                ->defaultValue('')
+                            ->end()
+                            ->variableNode('link')
+                                ->defaultValue('')
+                            ->end()
+                        ->end()
+                    ->end()
+                    ->arrayNode('misc')
+                        ->children()
+                            ->scalarNode('thumb')
+                                ->defaultValue('')
+                            ->end()
+                            ->booleanNode('display')
+                                ->defaultFalse()
                             ->end()
                         ->end()
                     ->end()
                 ->end()
             ->end();
+    }
 
-
-        return $treeBuilder;
+    /**
+     * Add the form services definitions parameters
+     * 
+     * @return TreeBuilder
+     */
+    public function addFormParameters(){
+        $builder = new TreeBuilder();
+        // Let's get it started ;) !
+        return $builder->root('forms')
+            ->children()
+                ->arrayNode('crop')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('aspect_ratio')->end()
+                            ->arrayNode('min_size')
+                                ->prototype('scalar')->end()
+                            ->end()
+                            ->arrayNode('max_size')
+                                ->prototype('scalar')->end()
+                            ->end()
+                            ->arrayNode('set_select')
+                                ->prototype('scalar')->end()
+                            ->end()
+                            ->scalarNode('bg_opacity')->end()
+                            ->scalarNode('bg_color')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }

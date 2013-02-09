@@ -35,27 +35,25 @@ loginPanel:
     disconect: "Déconnexion"
 
 users:
+    title: 'Utilisateur %entity%'
+    on_record: "L'utilisateur %entity% a bien était enregistré"
+    on_update: "L'utilisateur %entity% a bien était mis à jour"
+    on_delete: "L'utilisateur %entity% a bien était supprimé"
     add: 'Ajoutez un nouvelle utilisateur'
     edit: 'Modifiez cette utilisateur'
     delete: 'Supprimez cette utilisateur'
     persist: 'Ajouter/Modifier'
-    return_list: 'Retourner à la liste'
-    short_title: "Utilisateurs"
+    return: 'Retourner à la liste des utilisateurs'
+    panel_title: "Utilisateurs"
     description: |
         Vous pouvez administrer l'intégralité de vos utilisateurs via ce simple panneau. Créer, 
         supprimer et modifier des utilisateurs devient très simple !
 
-gallery:
-    add: 'Ajoutez une nouvelle gallerie'
-    edit: 'Modifiez cette gallerie'
-    delete: 'Supprimez cette gallerie'
-    short_title: "Gallerie"
-    return_list: "Retourner à la liste des galleries"
-    persist: "Ajouter ou modifier cette gallerie"
-    description: |
-        Créez vos catégories afin de faciliter la navigation de votre gallerie.
-
 media:
+    title: 'Média %entity%'
+    on_record: "Le média %entity% a bien était enregistré"
+    on_update: "Le média %entity% a bien était mis à jour"
+    on_delete: "Le média %entity% a bien était supprimé"
     add: 'Ajoutez un nouveau média'
     edit: 'Modifiez ce média'
     delete: 'Supprimez ce média'

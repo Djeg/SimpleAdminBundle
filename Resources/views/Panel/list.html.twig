@@ -14,7 +14,9 @@
 	{% for message in app.session.flashBag.get('SUCCESS') %}
 		<div class="alert alert-success">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			{{message|raw}}
+			{% for e in app.session.flashBag.get('SUBJECT_ENTITY') %}
+				{{message|trans({'%entity%': e})|raw}}
+			{% endfor %}
 		</div>
 	{% endfor %}
 
@@ -30,7 +32,8 @@
 						<img src="{{asset('bundles/beltonsimpleadmin/images/design/icons/menu.png')}}" alt="edition" />
 					{% endif %}
 				</p>
-				<h2>{{v.getListName()}}</h2>
+				{% set tag = register~'.title' %}
+				<h2>{{tag|trans({'%entity%': v})}}</h2>
 				<p class="sidebar_left details">
 					{% for k, v2 in v.getListFields() %}
 						<strong>{{k}}</strong> : {{v2|raw}} {% if not loop.last %}<br />{% endif %}

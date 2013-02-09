@@ -23,8 +23,16 @@ class BeltonSimpleAdminExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $loader->load('manager.yml');
+        $loader->load('forms.yml');
+        $loader->load('events.yml');
         
+        if(!isset($config['forms']) or !isset($config['forms']['crop'])){
+            $container->setParameter('belton_simple_admin.forms.crop', array());
+        } else {
+            $container->setParameter('belton_simple_admin.forms.crop', $config['forms']['crop']);
+        }
+
         $container->setParameter('belton_simple_admin.manager.menu', $config['menu']);
         $container->setParameter('belton_simple_admin.manager.infos', array(
             'website' => $config['website'],

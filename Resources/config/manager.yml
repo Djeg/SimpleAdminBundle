@@ -1,0 +1,13 @@
+services:
+    belton_simple_admin.manager:
+        class: Belton\SimpleAdminBundle\Manager\Manager
+        arguments: 
+            - "@doctrine.orm.entity_manager"
+            - "%belton_simple_admin.manager.registration%"
+            - "%belton_simple_admin.manager.menu%"
+            - "%belton_simple_admin.manager.infos%"
+        calls:
+            - [setPaginator, [@knp_paginator]]
+            - [setSecurity, [@security.context]]
+        tags:
+            - {name: twig.extension}
