@@ -5,9 +5,15 @@
 			{% if image_url is not empty %}
 				<img src="{{asset(image_url)}}" alt="Image" class="image_preview" />
 				<input type="button" value="{{'form.image.change'|trans({}, 'BeltonSimpleAdminBundle')}}" class="btn change_image" />
-				<input type="file" id="{{id}}" name="{{full_name}}" class="hidden_input uploader" />
+				<label class="file_wrap" id="{{id}}" style="display:none;">
+					<h3>{{'form.input.file'|trans({}, 'BeltonSimpleAdminBundle')}}</h3>
+					<input type="file" id="{{id}}" name="{{full_name}}" class="hidden_input uploader" />
+				</label>
 			{% else %}
-				<input type="file" id="{{id}}" name="{{full_name}}" class="uploader" />
+				<label class="file_wrap" id="{{id}}">
+					<h3>{{'form.input.file'|trans({}, 'BeltonSimpleAdminBundle')}}</h3>
+					<input type="file" id="{{id}}" name="{{full_name}}" class="hidden_input uploader" />
+				</label>
 			{% endif %}
 		</div>
 	{% endspaceless %}
@@ -16,15 +22,10 @@
 {% block video_widget %}
 	{% spaceless %}
 		{{block('textarea_widget')}}
-		{% if video is not empty %}
-			<div class="video_preview">
-				{{video|raw}}
-			</div>
-		{% endif %}
-		<button class="btn test_button">
-			<i class="icon-film"></i>
+		<br />
+		<p class="btn video_preview_button">
 			{{'form.video.test'|trans({}, 'BeltonSimpleAdminBundle')}}
-		</button>
+		</p>
 	{% endspaceless %}
 {% endblock %}
 

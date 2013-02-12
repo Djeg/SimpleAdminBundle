@@ -4,7 +4,7 @@ use Twig_Extension;
 use Doctrine\ORM\EntityManager;
 use ReflectionClass;
 use Belton\SimpleAdminBundle\Exceptions\AdminManagerException;
-use Belton\SimpleAdminBundle\Model\AdministrableRepositoryInterface;
+use Belton\SimpleAdminBundle\Model\Entity\AdministrableRepositoryInterface;
 use Knp\Component\Pager\Paginator;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -440,9 +440,9 @@ class Manager extends Twig_Extension {
 		$this->infos = $infos;
 		foreach($registration as $name => $infos){
 			$ref = new ReflectionClass($infos['entity']['class']);
-			if(!in_array('Belton\SimpleAdminBundle\Model\AdministrableInterface', $ref->getInterfaceNames())){
+			if(!in_array('Belton\SimpleAdminBundle\Model\Entity\AdministrableInterface', $ref->getInterfaceNames())){
 				throw new AdminManagerException('An admin entity object must implement the 
-					Belton\SimpleAdminBundle\Model\AdministrableInterface ! It\'s not the case ... sorry ;)');
+					Belton\SimpleAdminBundle\Model\Entity\AdministrableInterface ! It\'s not the case ... sorry ;)');
 			}
 		}
 	}

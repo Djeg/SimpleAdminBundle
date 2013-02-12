@@ -1,0 +1,31 @@
+// Hy !
+// Welcome to the admin.less files. This files import
+// all the cascading stylesheets nescecary to a corect 
+// style.
+// Have Fun ;)
+// author david jegat <david.jegat@gmail.com>
+
+// PAth resolution test 
+.image(@path){
+	background-image: url('../../images/@{path}');
+}
+// Global variables (for change easily variables like colors, borders ...)
+@import "global.less";
+
+// // Functions (gradients, transitions ...)
+@import "functions.less";
+
+// // Typography
+@import "typo.less";
+
+// // Some semantic style :
+@import "semantic.less";
+
+// // Header style :
+@import "header.less";
+
+// // Page style
+@import "page.less";
+
+// // footer style
+@import "footer.less";

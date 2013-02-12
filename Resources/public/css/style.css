@@ -142,6 +142,7 @@ header{
 			padding-right:30px;
 			float:left;
 			color:inherit;
+			font-weight: bold;
 			@media screen and (max-width:960px) and (min-width:500px){
 				padding-top: 5px;
 				float:none;
@@ -376,6 +377,7 @@ footer{
 
 // Forms definitions :
 form{
+	overflow:hidden;
 	text-align:center;
 	table{
 		margin:auto;
@@ -389,37 +391,57 @@ form{
 		}
 	}
 	.image_uploader{
-		min-width:400px;
-		min-height:400px;
+		width:400px;
+		height:400px;
 		text-align:center;
 		border:3px dashed @second_color;
 		padding:5px;
-		.uploader{
-			margin-top:230px;
-		}
 		.image_preview{
 			display:block;
 			max-width:400px;
-			max-height:400px;
+			max-height:300px;
 			margin:auto;
 			margin-top:10px;
 			margin-bottom:10px;
 			box-shadow:0px 0px 2px #484848;
 		}
-		.hidden_input{
-			display:none;
+		.file_wrap{
+			cursor:pointer;
+			margin-top: auto;
+			width:inherit;
+			height:inherit;
+			padding:0;
+			margin:0;
+			h3{
+				margin:0;
+				padding:0;
+				width:inherit;
+				height:inherit;
+				line-height:400px;
+				color:@second_color;
+				text-align:center;
+			}
+			input[type="file"]{
+				opacity:0;
+			}
+		}
+		.change_image{
+			display:block;
+			text-align:center;
+			margin:auto;
 		}
 		@media screen and (max-width:500px){
-			min-width:200px;
-			min-height:200px;
-			max-width:200px;
-			max-height:200px;
+			width:200px;
+			height:200px;
 			.image_preview{
 				max-width:190px;
-				max-height:190px;
+				max-height:150px;
 			}
 			.uploader{
 				margin-top: 110px;
+			}
+			.file_wrap h3{
+				line-height:200px;
 			}
 		}
 	}

@@ -6,8 +6,8 @@
 	{% stylesheets 
 		'@bootstrap_css'
 		'@jcrop_css'
-		'bundles/beltonsimpleadmin/css/style.css'
-		filter="cssrewrite, less, ?yui_css"
+		'bundles/beltonsimpleadmin/css/src/admin.less'
+		filter="less, cssrewrite, ?yui_css"
 		output="bundles/beltonsimpleadmin/css/admin.min.css"
 	%}
 		<link rel="stylesheet" href="{{asset_url}}" media="screen" />

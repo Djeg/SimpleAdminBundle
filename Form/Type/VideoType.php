@@ -18,7 +18,7 @@ class VideoType extends AbstractType {
 	 * @{inheritdoc}
 	 */
 	public function buildView(FormView $view, FormInterface $form, array $options){
-		$data = $this->getParent()->getData();
+		$data = $form->getParent()->getData();
 		if(method_exists($data, 'getVideo')){
 			$video = $data->getVideo();
 		} else {

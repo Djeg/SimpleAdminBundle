@@ -26,6 +26,8 @@ form:
         change: "Changer cette image"
     video:
         test: "Tester cette vidéo"
+    input:
+        file: "choisir une image"
 
 dashboard:
     index:

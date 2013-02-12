@@ -1,0 +1,61 @@
+/**
+ * Here defined the semantic component style like wrap, pagination ...
+ * TODO : Merge to bootstrap semantic
+ */
+.pagination{
+	margin-top:5px;
+	margin-bottom: 5px;
+	padding:5px;
+	text-align:center;
+}
+.wrap{
+	width: 960px;
+	height: auto;
+	overflow:hidden;
+	margin:auto;
+	@media screen and (max-width:960px){ 
+		width: auto; 
+		overflow: auto;
+	}
+}
+.center{
+	text-align:center;
+}
+.center_block{
+	margin:auto;
+}
+.sidebar_left{
+	float:left;
+}
+.sidebar_right{
+	float:right;
+}
+.pad_display{
+	display:none;
+}
+.mobile_display{
+	display:none;
+}
+.padmobile_display{
+	display:none;
+}
+@media screen and (max-width:940px) and (min-width:500px){
+	.pad_display{
+		display:block;
+	}
+	.padmobile_display{
+		display:block;
+	}
+}
+@media screen and (max-width:500px){
+	.mobile_display{
+		display:block;
+	}
+	.padmobile_display{
+		display:block;
+	}
+}
+
+.bordered_bottom{
+	border-bottom: @default_border;
+}

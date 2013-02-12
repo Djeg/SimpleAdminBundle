@@ -30,20 +30,19 @@
 		}
 
 		var changeImage = function (){
-			_this.find('.change_image').slideUp('slow', function(){
+			_this.find('.change_image').fadeOut('slow', function(){
 				$(this).remove();
 			});
-			_this.find('.jcrop-holder').slideUp('slow', function(){
+			_this.find('.jcrop-holder').fadeOut('slow', function(){
 				$(this).remove();
-			})
+				fileInput.html(fileInput.val('').html()).parent().fadeIn('slow');
+			});
 			if(cropper.exist()){
 				cropper.val('');
 			}
-			_this.find('.image_preview').slideUp('slow', function(){
+			_this.find('.image_preview').fadeOut('slow', function(){
 				$(this).remove();
-				fileInput.html(fileInput.val('').html());
-				_this.find('.uploader').slideDown('fast');
-			})
+			});
 		}
 
 		fileInput.change(function(){
@@ -52,7 +51,7 @@
 			if(!file.type.match('image.*')){
 				return;
 			}
-			fileInput.slideUp('slow', function(e){
+			fileInput.parent().fadeOut('slow', function(e){
 				var reader = new FileReader();
 				reader.onloadend = function(e){
 					var output = [
@@ -77,13 +76,23 @@
 						}
 						imagePreview.css({'margin-top': marginTop+'px'});
 						_this.find('.image_preview')
-							.slideDown('slow', function(){
-								$(this).Jcrop($.extend(
-									{onChange: function(c){ updateCrop(c, image)}},
-									$.parseJSON(cropper.attr('data-prototype'))
-								));
+							.fadeIn('slow', function(){
+								if(cropper.exist()){	
+									console.log($(this).Jcrop($.extend(
+										{onChange: function(c){ updateCrop(c, image)}},
+										$.parseJSON(cropper.attr('data-prototype'))
+									)).parent().find('.jcrop-holder').css({
+										top: marginTop+'px'
+									}));
+								}
 								_this.find('.change_image')
-									.slideDown('slow')
+									.toggle(true)
+									.css({
+										position: "relative",
+										top: marginTop+10+'px'
+									})
+									.toggle(false)
+									.fadeIn('slow')
 									.bind('click', changeImage);
 						});
 					}
@@ -97,7 +106,10 @@
 		}
 
 		if(_this.find('.image_preview').exist() && $('.cropper').exist()){
-
+			$('.image_preview').Jcrop($.extend(
+										{onChange: function(c){ updateCrop(c, image)}},
+										$.parseJSON(cropper.attr('data-prototype'))
+									));
 		}
 
 		return _this;

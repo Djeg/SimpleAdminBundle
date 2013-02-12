@@ -20,4 +20,7 @@ jQuery(function($){
 			}
 		});
 	}
+	if($('.video_preview_button').exist()){
+		$('.video_preview_button').videoPreviewer();
+	}
 });
